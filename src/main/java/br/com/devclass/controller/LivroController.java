@@ -12,6 +12,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
+
 import br.com.devclass.entity.Livro;
 import br.com.devclass.service.ILivroService;
 
@@ -22,6 +25,17 @@ public class LivroController {
 	ILivroService livroService;
 	
 	@POST
+	@APIResponses( {
+		@APIResponse(
+			responseCode = "200",
+			description = "Criado com sucesso"
+		),
+		@APIResponse(
+			responseCode = "400",
+			description = "Requisição inválida"
+		)
+		} 
+	)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response create( Livro livro ) {
@@ -30,6 +44,17 @@ public class LivroController {
 	}
 	
 	@PATCH
+	@APIResponses( {
+		@APIResponse(
+			responseCode = "200",
+			description = "Editado com sucesso"
+		),
+		@APIResponse(
+			responseCode = "404",
+			description = "Não encontrado o elemento para edição"
+		)
+		}
+	)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response update( Livro livro ) {
@@ -38,6 +63,17 @@ public class LivroController {
 	}
 	
 	@DELETE
+	@APIResponses( {
+		@APIResponse(
+			responseCode = "200",
+			description = "Sucesso"
+		),
+		@APIResponse(
+			responseCode = "404",
+			description = "Não encontrado"
+		)
+		}
+	)
 	@Path( "/{id}" )
 	public Response remove( @PathParam( value = "id" )  Integer id ) {
 		this.livroService.remove( id );
@@ -45,6 +81,17 @@ public class LivroController {
 	}
 	
 	@GET
+	@APIResponses( {
+		@APIResponse(
+			responseCode = "200",
+			description = "Busca efetuada com sucesso"
+		),
+		@APIResponse(
+			responseCode = "404",
+			description = "Livro não encontrado"
+		)
+		}
+	)
 	@Path( "/{id}" )
 	@Produces( MediaType.APPLICATION_JSON )
 	public Response findById( @PathParam( value = "id" ) Integer id ) {
@@ -53,6 +100,12 @@ public class LivroController {
 	}
 	
 	@GET
+	@APIResponses( 
+		@APIResponse(
+			responseCode = "200",
+			description = "Busca efetuada com sucesso"
+		)
+	)
 	@Produces( MediaType.APPLICATION_JSON )
 	public Response listAll() {
 		this.livroService.listAll();
@@ -60,6 +113,17 @@ public class LivroController {
 	}
 	
 	@GET
+	@APIResponses( {
+		@APIResponse(
+			responseCode = "200",
+			description = "Busca efetuada com sucesso"
+		),
+		@APIResponse(
+			responseCode = "404",
+			description = "Livro não encontrado"
+		)
+		}
+	)
 	@Path( "/{editora}" )
 	@Consumes( MediaType.APPLICATION_JSON )
 	@Produces( MediaType.APPLICATION_JSON )

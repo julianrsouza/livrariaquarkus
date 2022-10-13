@@ -12,6 +12,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
+
 import br.com.devclass.entity.Autor;
 import br.com.devclass.service.IAutorService;
 
@@ -22,6 +25,17 @@ public class AutorController {
 	IAutorService autorService;
 	
 	@POST
+	@APIResponses( {
+		@APIResponse(
+			responseCode = "200",
+			description = "Criado com sucesso"
+		),
+		@APIResponse(
+			responseCode = "400",
+			description = "Requisição inválida"
+		)
+		} 
+	)
 	@Consumes( MediaType.APPLICATION_JSON )
 	@Produces( MediaType.APPLICATION_JSON )
 	public Response create( Autor Autor ) {
@@ -30,6 +44,17 @@ public class AutorController {
 	}
 	
 	@PATCH
+	@APIResponses( {
+		@APIResponse(
+			responseCode = "200",
+			description = "Editado com sucesso"
+		),
+		@APIResponse(
+			responseCode = "404",
+			description = "Não encontrado o elemento para edição"
+		)
+		}
+	)
 	@Consumes( MediaType.APPLICATION_JSON )
 	@Produces( MediaType.APPLICATION_JSON )
 	public Response update( Autor Autor ) {
@@ -38,6 +63,17 @@ public class AutorController {
 	}
 	
 	@DELETE
+	@APIResponses( {
+		@APIResponse(
+			responseCode = "200",
+			description = "Sucesso"
+		),
+		@APIResponse(
+			responseCode = "404",
+			description = "Elemento não econtrado para exclusão"
+		)
+		}
+	)
 	@Path( "/{id}" )
 	public Response remove( @PathParam( value = "id" )  Integer id ) {
 		this.autorService.remove( id );
@@ -45,6 +81,17 @@ public class AutorController {
 	}
 	
 	@GET
+	@APIResponses( {
+		@APIResponse(
+			responseCode = "200",
+			description = "Busca efetuada com sucesso"
+		),
+		@APIResponse(
+			responseCode = "404",
+			description = "Autor não encontrado"
+		)
+		}
+	)
 	@Path( "/{id}" )
 	@Produces( MediaType.APPLICATION_JSON )
 	public Response findById( @PathParam( value = "id" ) Integer id ) {
@@ -53,6 +100,12 @@ public class AutorController {
 	}
 	
 	@GET
+	@APIResponses(
+		@APIResponse(
+			responseCode = "200",
+			description = "Busca efetuada com sucesso"
+		)
+	)
 	@Produces( MediaType.APPLICATION_JSON )
 	public Response listAll() {
 		this.autorService.listAll();
@@ -60,6 +113,17 @@ public class AutorController {
 	}
 	
 	@GET
+	@APIResponses( {
+		@APIResponse(
+			responseCode = "200",
+			description = "Busca efetuada com sucesso"
+		),
+		@APIResponse(
+			responseCode = "404",
+			description = "Autor não encontrado"
+		)
+		}
+	)
 	@Path( "/{nome}")
 	@Consumes( MediaType.APPLICATION_JSON )
 	@Produces( MediaType.APPLICATION_JSON )
